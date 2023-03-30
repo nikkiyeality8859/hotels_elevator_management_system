@@ -25,7 +25,7 @@ import com.elevator_management_system.service.Elevator_service;;;
 
 @RestController
 @RequestMapping("/elevator_management_system")
-public class MainConroller {
+public class MainController {
 	@Autowired
 	Elevator_service service;
 

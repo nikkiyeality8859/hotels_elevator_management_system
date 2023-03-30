@@ -6,8 +6,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Elevator {
@@ -17,6 +20,7 @@ public class Elevator {
 	private Hotel hotel;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int elevator_id;
 
 	@Column(name = "floor_count")
@@ -113,18 +117,42 @@ public class Elevator {
 				+ currentFloor + ", currentJobs=" + currentJobs + ", upPendingJobs=" + upPendingJobs
 				+ ", downPendingJobs=" + downPendingJobs + "]";
 	}
+	
+	
+
+	public Elevator() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Elevator(Hotel hotel, int elevator_id, int count, Direction currentDirection, State currentState,
+			int currentFloor) {
+		super();
+		this.hotel = hotel;
+		this.elevator_id = elevator_id;
+		this.count = count;
+		this.currentDirection = currentDirection;
+		this.currentState = currentState;
+		this.currentFloor = currentFloor;
+		
+	}
+
+
 
 	/**
 	 * jobs which are being processed
 	 */
+	@Transient
 	private TreeSet<Request> currentJobs = new TreeSet<>();
 	/**
 	 * up jobs which cannot be processed now so put in pending queue
 	 */
+	@Transient
 	private TreeSet<Request> upPendingJobs = new TreeSet<>();
 	/**
 	 * down jobs which cannot be processed now so put in pending queue
 	 */
+	@Transient
 	private TreeSet<Request> downPendingJobs = new TreeSet<>();
 
 	public void startElevator() {
